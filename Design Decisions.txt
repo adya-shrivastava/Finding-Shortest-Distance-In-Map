@@ -1,0 +1,40 @@
+Design Decisions:
+
+1. Speed for different terrains:
+    The season "Summer" has different terrains with varying speed according to ease of walkability.
+    For example, easy walkable terrains like Paved Road, Open Land have speeds of 2.8, while difficult to walk paths like
+    Rough Meadow, Slow run forest have been given smaller speeds of 0.8.
+    Taking different seasons into account, the speed of Easy movement forest has been reduced in Fall season due to falling
+    leaves, and speed for other terrains have not changed/
+    For winter, a new code for frozen water has been added, giving it a speed of 2.5, while other speed remain unchanged.
+    For spring, a new code for mud has been added, giving it a speed of 0.7, while other speed remain the same.
+
+2. Cost and Heuristic Functions:
+    Cost function takes into account the change in x and y values as well as the change in elevation from one point to another.
+    Since the change in elevation also affects the speed of a person going up steeper hill, this change has been reflected by taking the
+    difference in elevation value for elevations. To account for a person going uphill or down hill, the speed has been further multiplied by a constant factor.
+
+    Heuristic function is the ideal function going from one point to another based on the shortest path, while considering an easy walkable terrain
+    like Paved road or Open Land and no change in elevations. Taking these factors into account, heuristic function returns the displacement between the current node and the destination
+    divided by the speed of an ideal terrain (considering the ideal terrain to be an open land here).
+
+    The total cost function takes into account the cost of current node from source + heuristic estimation of current node to the destination.
+
+3. Considerations for Seasonal algorithms:
+    Common consideration:
+        Out of bounds terrain is not considered to be walkable in any season.
+        BFS has been applied to find out the pixels to be colored around the water edges for Winter and Spring season respectively.
+    1. Summer:
+        Considering summer to be the ideal scenario, where all the terrains except Impassible Vegetation and Water have considered to be walkable.
+
+    2. Fall:
+        For fall, since there might be leaves fallen on the gorund, one might have difficulty walking on the "Easy Movement forest terrain".
+        Taking this into account, the speed for the said terrain has been removed, leaving others unchanged.
+
+    3. Winter:
+        7 pixels around the water edges are considered as walkable (marking it with a different color than water),
+        considering the water has frozen around the edges and a person can walk on the same.
+
+    4. Spring:
+        15 pixels away from the water edges are considered as non-walkable(marking it with a dark brown color),
+        considering a person cannot walk on the muddy grounds.
